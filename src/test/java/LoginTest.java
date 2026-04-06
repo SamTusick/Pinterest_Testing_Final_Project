@@ -45,4 +45,59 @@ public class LoginTest {
         }
         System.out.println("[Teardown] Browser closed.");
     }
+
+    // Test 1: Valid Login
+    @Test(priority = 1)
+    public void testValidLogin(){
+
+    }
+
+    // Test 2: Invalid Password
+    @Test(priority = 2)
+    public void testInvalidPasswordLogin(){
+
+    }
+
+    // Test 3: Invalid Email
+    @Test(priority = 3)
+    public void testInvalidEmailLogin(){
+
+    }
+
+    // Test 4: Empty Email
+    @Test(priority = 4)
+    public void testEmptyEmailField(){
+
+    }
+
+    // Test 5: Empty Password Field
+    @Test(priority = 5)
+    public void testEmptyPasswordField() {
+
+    }
+
+    // Test 6: Both Fields Empty
+    @Test(priority = 6)
+    public void testEmptyBothFields() {
+
+    }
+
+    // Test 7: Login Button Present
+    @Test(priority = 7)
+    public void testLoginButtonDisabledInitially() {
+
+    }
+
+    // Test 8: Forgot Password Link Navigates
+    @Test(priority = 8)
+    public void testForgotPasswordLinkNavigates() {
+
+    }
+
+    // Test 9: Logout Successfully
+    @Test(priority = 9)
+    public void testLogoutSuccessfully() {
+
+    }
+
 }
