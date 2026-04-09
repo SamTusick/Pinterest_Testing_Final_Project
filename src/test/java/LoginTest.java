@@ -15,10 +15,6 @@ public class LoginTest {
     WebDriver driver;
     WebDriverWait wait;
 
-    private static final String BASE_URL    = "https://www.pinterest.com";
-    private static final String VALID_EMAIL = "sjtusick6535@eagle.fgcu.edu";
-    private static final String VALID_PASS  = "TestPassword12910!";
-
     @BeforeSuite
     public void beforeSuite() {
         System.out.println("=== TEST SUITE STARTING ===");
@@ -104,7 +100,8 @@ public class LoginTest {
         openLogIn();
         enterCredentials("sjtusick6535@eagle.fgcu.edu", "WrongPassword");
         clickLogIn();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='password-error']/div/span[1]")));
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='password-error']/div/span[1]")));
+        Assert.assertTrue(error.isDisplayed(), "Expected error message for invalid password.");
     }
 
     // Test 3: Invalid Email
@@ -113,7 +110,8 @@ public class LoginTest {
         openLogIn();
         enterCredentials("wrong@email.com", "Test123910!");
         clickLogIn();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='password-error']/div/span[1]")));
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='password-error']/div/span[1]")));
+        Assert.assertTrue(error.isDisplayed(), "Expected error message for invalid email.");
     }
 
     // Test 4: Empty Email
@@ -122,7 +120,8 @@ public class LoginTest {
         openLogIn();
         enterCredentials("", "Test123910!");
         clickLogIn();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='email-error']")));
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='email-error']")));
+        Assert.assertTrue(error.isDisplayed(), "Expected error message for empty email.");
     }
 
     // Test 5: Empty Password Field
@@ -145,8 +144,8 @@ public class LoginTest {
 
     }
 
-    // Test 8: Forgot Password Link Navigates
-    @Test(priority = 8)
+    // Test 7: Forgot Password Link Navigates
+    @Test(priority = 7)
     public void testForgotPasswordLinkNavigates() {
         openLogIn();
         WebElement forgot_password = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div[2]/div/div/div/div/div/div[3]/div[1]/div/div[1]/div[1]/form/div[5]/div/div/a")));
@@ -156,8 +155,8 @@ public class LoginTest {
                 "Expected navigation to the password-reset page.");
     }
 
-    // Test 9: Logout Successfully
-    @Test(priority = 9)
+    // Test 8: Logout Successfully
+    @Test(priority = 8)
     public void testLogoutSuccessfully() {
         openLogIn();
         enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
