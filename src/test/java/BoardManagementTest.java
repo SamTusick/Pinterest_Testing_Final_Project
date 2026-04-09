@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -179,6 +180,28 @@ private void openLogIn(){
     // Test 4: Edit Board Name
     @Test(priority = 4)
     public void testEditBoardName() {
+        login();
+
+        clickBoards();
+
+        // Click into board
+        WebElement board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div/div/div/div/div/div/div[1]")));
+        board.click();
+        WebElement dots = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div[2]/div/div/div[2]/div/div[2]")));
+        dots.click();
+        WebElement edit_board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board_options-item-0']/div/div/div[1]/div/div")));
+        edit_board.click();
+
+        // Edit name
+        WebElement name = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='boardEditName']")));
+        name.sendKeys(Keys.CONTROL + "a");
+        name.sendKeys(Keys.DELETE);
+        name.sendKeys("Edit Name");
+        driver.findElement(By.xpath("/html/body/div[10]/div/div/div/div[2]/div/div[3]/div/div/div/div/div")).click();
+
+        // Test
+        WebElement title = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board-name']")));
+        Assert.assertEquals(title.getText(), "Edit Name");
 
     }
 
