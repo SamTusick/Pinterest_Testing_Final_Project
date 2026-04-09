@@ -220,7 +220,23 @@ private void openLogIn(){
     // Test 6: Duplicate Board Name
     @Test(priority = 6)
     public void testDuplicateBoardName() {
+        login();
 
+        clickBoards();
+        WebElement create = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[2]/div/div/div/div[3]/div")));
+        create.click();
+        driver.findElement(By.xpath("//*[@id='board_actions-item-1']/div/div/div[1]/div/div/span")).click();
+
+        // Insert new board data
+        WebElement name = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board-name']")));
+        name.sendKeys("SecretBoard");
+        driver.findElement(By.xpath("//*[@id='secret-board-toggle']")).click();
+        driver.findElement(By.xpath("/html/body/div[11]/div/div/div/div[2]/div/div[3]/div/div/button")).click();
+
+
+        // Test
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='board-name-error']")));
+        Assert.assertTrue(error.isDisplayed(), "Expected error message for duplicate board name.");
     }
 
 
