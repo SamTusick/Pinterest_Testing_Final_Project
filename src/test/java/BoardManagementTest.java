@@ -208,7 +208,13 @@ private void openLogIn(){
     // Test 5: Board Appears on Profile
     @Test(priority = 5)
     public void testBoardAppearsOnProfile() {
+        login();
 
+        clickBoards();
+
+        // Test
+        WebElement specific_board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div/div/div/div/div/div/div[1]/div/div/div/a/div/div/div/div/div/div[2]/div[1]/h2")));
+        Assert.assertEquals(specific_board.getText(), "Edit Name");
     }
 
     // Test 6: Duplicate Board Name
