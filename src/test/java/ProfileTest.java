@@ -1,10 +1,18 @@
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
+
+import java.time.Duration;
 
 public class ProfileTest {
 
+// Set Up
     WebDriver driver;
+    WebDriverWait wait;
 
     @BeforeSuite
     public void beforeSuite() {
@@ -33,6 +41,7 @@ public class ProfileTest {
         System.setProperty("webdriver.chrome.driver", "C:\\Drivers\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         System.out.println("[Setup] Browser ready.");
     }
 
@@ -45,7 +54,31 @@ public class ProfileTest {
         }
         System.out.println("[Teardown] Browser closed.");
     }
+// --------------------------------------------------------------------
+// Helper Functions
+private void openLogIn(){
+    driver.get("https://www.pinterest.com/");
 
+    WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]/button/div/div")));
+    login_btn.click();
+
+}
+
+    private void enterCredentials(String email, String password) {
+        WebElement email_field = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='email']")));
+        email_field.sendKeys(email);
+        WebElement password_field = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='password']")));
+        password_field.sendKeys(password);
+
+    }
+
+    private void clickLogIn(){
+        driver.findElement(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div[2]/div/div/div/div/div/div[3]/div[1]/div/div[1]/div[1]/form/div[7]/button")).click();
+    }
+
+// --------------------------------------------------------------------
+
+// Tests
     // Test 1: Profile Page Loads
     @Test(priority = 1)
     public void testProfilePageLoads() {
