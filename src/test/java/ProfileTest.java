@@ -174,7 +174,61 @@ private void openLogIn(){
     // Test 3: Edit Profile – Bio Update
     @Test(priority = 3)
     public void testEditProfileBioUpdate() {
+        openLogIn();
+        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
+        clickLogIn();
 
+        WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
+        profile.click();
+        WebElement profile_link = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div[1]/div[2]")));
+        profile_link.click();
+
+        WebElement edit_profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[4]/div/div/div[2]/div/div/div[1]")));
+        edit_profile.click();
+
+        String expectedBio;
+        By bioBy        = By.xpath("//*[@id='about']");
+        By saveButtonBy = By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div[2]/div/div[2]/div[2]/div[2]/div/div/div/div[2]/div/div/div[2]/button");
+
+        // --- First attempt ---
+        WebElement bio = wait.until(ExpectedConditions.visibilityOfElementLocated(bioBy));
+        bio.sendKeys(Keys.CONTROL + "a");
+        bio.sendKeys("Testing bio update.");
+
+        WebElement saveButton = wait.until(ExpectedConditions.visibilityOfElementLocated(saveButtonBy));
+        boolean saveEnabled = saveButton.isEnabled() &&
+                (saveButton.getAttribute("class") == null ||
+                        !saveButton.getAttribute("class").contains("disabled"));
+
+        if (!saveEnabled) {
+            // Bio is already "Testing bio update." — try alternate
+            System.out.println("[Info] Save not clickable — bio already set. Trying alternate bio.");
+
+            bio = wait.until(ExpectedConditions.visibilityOfElementLocated(bioBy));
+            bio.sendKeys(Keys.CONTROL + "a");
+            bio.sendKeys("Updated bio for testing.");
+
+            expectedBio = "Updated bio for testing.";
+
+            saveButton = wait.until(ExpectedConditions.elementToBeClickable(saveButtonBy));
+        } else {
+            expectedBio = "Testing bio update.";
+        }
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
+
+        // Navigate back to profile to verify bio
+        driver.findElement(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]")).click();
+        WebElement test_profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div[1]/div[2]")));
+        test_profile.click();
+
+        By bioDisplayLocator = By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[3]/div/span");
+
+        wait.until(ExpectedConditions.textToBe(bioDisplayLocator, expectedBio));
+
+        WebElement displayedBio = driver.findElement(bioDisplayLocator);
+        Assert.assertEquals(displayedBio.getText().trim(), expectedBio, "Profile bio did not update correctly.");
     }
 
     // Test 4: Profile Displays Boards
