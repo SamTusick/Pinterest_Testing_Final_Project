@@ -1,6 +1,5 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -8,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.time.Duration;
+import java.util.List;
 
 public class ProfileTest {
 
@@ -40,6 +40,7 @@ public class ProfileTest {
         // Runs before EACH test method — initializes a fresh browser session
         System.out.println("\n[Setup] Launching Chrome browser...");
         System.setProperty("webdriver.chrome.driver", "C:\\Drivers\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -76,7 +77,6 @@ private void openLogIn(){
     private void clickLogIn(){
         driver.findElement(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div[2]/div/div/div/div/div/div[3]/div[1]/div/div[1]/div[1]/form/div[7]/button")).click();
     }
-
 // --------------------------------------------------------------------
 
 // Tests
@@ -100,7 +100,75 @@ private void openLogIn(){
     // Test 2: Edit Profile – Name Update
     @Test(priority = 2)
     public void testEditProfileNameUpdate() {
+        openLogIn();
+        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
+        clickLogIn();
 
+        WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
+        profile.click();
+        WebElement profile_link = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div[1]/div[2]")));
+        profile_link.click();
+
+        WebElement edit_profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[4]/div/div/div[2]/div/div/div[1]")));
+        edit_profile.click();
+
+        String expectedName;
+        By firstNameBy  = By.xpath("//*[@id='first_name']");
+        By lastNameBy   = By.xpath("//*[@id='last_name']");
+        By saveButtonBy = By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div[2]/div/div[2]/div[2]/div[2]/div/div/div/div[2]/div/div/div[2]/button");
+
+        // --- First attempt: "Samuel Tusick" ---
+        WebElement first_name = wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameBy));
+        WebElement last_name  = wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameBy));
+
+        first_name.sendKeys(Keys.CONTROL + "a");
+        first_name.sendKeys("Samuel");
+        last_name.sendKeys(Keys.CONTROL + "a");
+        last_name.sendKeys("Tusick");
+
+        WebElement saveButton = wait.until(ExpectedConditions.visibilityOfElementLocated(saveButtonBy));
+        boolean saveEnabled = saveButton.isEnabled() &&
+                (saveButton.getAttribute("class") == null ||
+                        !saveButton.getAttribute("class").contains("disabled"));
+
+        if (!saveEnabled) {
+            // Name is already "Samuel Tusick" — re-fetch fields and try alternate
+            System.out.println("[Info] Save not clickable — name already set. Trying alternate name.");
+
+            first_name = wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameBy));
+            last_name  = wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameBy));
+
+            first_name.sendKeys(Keys.CONTROL + "a");
+            first_name.sendKeys("Sam");
+            last_name.sendKeys(Keys.CONTROL + "a");
+            last_name.sendKeys("Tusick");
+
+            expectedName = "Sam Tusick";
+
+            // Re-fetch save button too
+            saveButton = wait.until(ExpectedConditions.elementToBeClickable(saveButtonBy));
+        } else {
+            expectedName = "Samuel Tusick";
+        }
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
+
+        // Verify displayed name matches what was saved
+        System.out.println("TESTING");
+        driver.findElement(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]")).click();
+        WebElement test_profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div[1]/div[2]")));
+        test_profile.click();
+        wait.until(ExpectedConditions.textToBe(
+                By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div/div[2]/div/div[1]/div/div/h1/div"),
+                expectedName
+        ));
+
+        WebElement displayedName = driver.findElement(
+                By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div/div[2]/div/div[1]/div/div/h1/div")
+        );
+
+        Assert.assertEquals(displayedName.getText(), expectedName, "Profile name did not update correctly.");
     }
 
     // Test 3: Edit Profile – Bio Update
