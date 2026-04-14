@@ -282,6 +282,24 @@ private void openLogIn(){
     // Test 6: Profile URL Matches Username
     @Test(priority = 6)
     public void testProfileURLMatchesUsername() {
+        openLogIn();
+        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
+        clickLogIn();
+
+        // Navigate to profile
+        WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
+        profile.click();
+        WebElement profile_link = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[1]/div[1]/div[2]")));
+        profile_link.click();
+
+        // Get current URL and extract username from it
+        String currentURL = driver.getCurrentUrl();
+
+        // Pinterest profile URLs follow the pattern: https://www.pinterest.com/username/
+        String expectedUsername = "sjtusick";
+        Assert.assertTrue(currentURL.contains(expectedUsername),
+                "Profile URL does not contain expected username. URL was: " + currentURL);
+
 
     }
 
