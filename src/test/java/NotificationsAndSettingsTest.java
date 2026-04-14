@@ -1,10 +1,15 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
+
+import java.time.Duration;
 
 public class NotificationsAndSettingsTest {
 
     WebDriver driver;
+    WebDriverWait wait;
 
     @BeforeSuite
     public void beforeSuite() {
@@ -31,8 +36,10 @@ public class NotificationsAndSettingsTest {
         // Runs before EACH test method — initializes a fresh browser session
         System.out.println("\n[Setup] Launching Chrome browser...");
         System.setProperty("webdriver.chrome.driver", "C:\\Drivers\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         System.out.println("[Setup] Browser ready.");
     }
 
