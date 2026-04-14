@@ -234,6 +234,25 @@ private void openLogIn(){
     // Test 4: Profile Displays Boards
     @Test(priority = 4)
     public void testProfileDisplaysBoards() {
+        openLogIn();
+        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
+        clickLogIn();
+
+        WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
+        profile.click();
+
+        // Click the "Boards" tab on your profile (may already be default)
+        WebElement boardsTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='_boards-profile-tab']/div/div/div[1]/div/div/div")));
+        boardsTab.click();
+
+        // Wait for at least one board to appear
+        List<WebElement> boards = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                By.xpath("//div[@data-test-id='drawer-image-group-first-image-container']")
+        ));
+
+        Assert.assertFalse(boards.isEmpty(), "No boards found on profile page.");
+
+
 
     }
 
