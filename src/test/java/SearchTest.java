@@ -294,7 +294,7 @@ public class SearchTest {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", applyButton);
         Thread.sleep(4000);
 
-        Assert.assertTrue(true, "Left filter button was opened and Videos was selected.");
+        Assert.assertTrue(true, "Filter button was opened and videos was selected.");
     }
 
     @Test(priority = 4)
@@ -331,7 +331,7 @@ public class SearchTest {
         );
 
         Assert.assertFalse(suggestions.isEmpty(),
-                "Empty search focus should populate recent searches or suggested content.");
+                "Should populate recent searches or suggested content.");
     }
     
     @Test(priority = 6)
