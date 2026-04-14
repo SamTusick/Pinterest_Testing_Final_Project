@@ -251,14 +251,31 @@ private void openLogIn(){
         ));
 
         Assert.assertFalse(boards.isEmpty(), "No boards found on profile page.");
-
-
-
     }
 
     // Test 5: Profile Pins Tab Displays Pins
     @Test(priority = 5)
     public void testProfileDisplaysPins() {
+        openLogIn();
+        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
+        clickLogIn();
+
+        // Navigate to profile
+        WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
+        profile.click();
+
+        // Click the "Created" tab to see your pins
+        WebElement pinsTab = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@id='_pins-profile-tab']/div/div/div[1]/div/div/div")
+        ));
+        pinsTab.click();
+
+        // Wait for at least one pin to appear
+        List<WebElement> pins = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
+                By.xpath("//div[@data-test-id='pincard-storyPin-without-link']")
+        ));
+
+        Assert.assertFalse(pins.isEmpty(), "No pins found on profile page.");
 
     }
 
