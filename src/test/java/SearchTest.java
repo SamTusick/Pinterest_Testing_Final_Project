@@ -274,10 +274,10 @@ public class SearchTest {
         Thread.sleep(5000);
 
         System.out.println("Clicking filter button...");
-        WebElement leftFilterButton = wait.until(ExpectedConditions.elementToBeClickable(
+        WebElement filterButton = wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//button[@aria-label='Show filters' and @data-test-id='one-bar-pill']")
         ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", leftFilterButton);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filterButton);
         Thread.sleep(3000);
 
         System.out.println("Selecting Videos filter...");
