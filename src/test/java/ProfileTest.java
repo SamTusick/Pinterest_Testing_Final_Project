@@ -61,7 +61,7 @@ public class ProfileTest {
 private void openLogIn(){
     driver.get("https://www.pinterest.com/");
 
-    WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]/button/div/div")));
+    WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]")));
     login_btn.click();
 
 }
@@ -77,15 +77,21 @@ private void openLogIn(){
     private void clickLogIn(){
         driver.findElement(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div[2]/div/div/div/div/div/div[3]/div[1]/div/div[1]/div[1]/form/div[7]/button")).click();
     }
+
+    private void login(){
+        // Log In
+        openLogIn();
+        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
+        //enterCredentials("stusick@outlook.com", "SamuelTusick05!");
+        clickLogIn();
+    }
 // --------------------------------------------------------------------
 
 // Tests
     // Test 1: Profile Page Loads
     @Test(priority = 1)
     public void testProfilePageLoads() {
-        openLogIn();
-        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
-        clickLogIn();
+        login();
 
         WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
         profile.click();
@@ -100,9 +106,7 @@ private void openLogIn(){
     // Test 2: Edit Profile – Name Update
     @Test(priority = 2)
     public void testEditProfileNameUpdate() {
-        openLogIn();
-        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
-        clickLogIn();
+        login();
 
         WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
         profile.click();
@@ -174,9 +178,7 @@ private void openLogIn(){
     // Test 3: Edit Profile – Bio Update
     @Test(priority = 3)
     public void testEditProfileBioUpdate() {
-        openLogIn();
-        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
-        clickLogIn();
+        login();
 
         WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
         profile.click();
@@ -234,9 +236,7 @@ private void openLogIn(){
     // Test 4: Profile Displays Boards
     @Test(priority = 4)
     public void testProfileDisplaysBoards() {
-        openLogIn();
-        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
-        clickLogIn();
+        login();
 
         WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
         profile.click();
@@ -256,9 +256,7 @@ private void openLogIn(){
     // Test 5: Profile Pins Tab Displays Pins
     @Test(priority = 5)
     public void testProfileDisplaysPins() {
-        openLogIn();
-        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
-        clickLogIn();
+        login();
 
         // Navigate to profile
         WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));
@@ -282,9 +280,7 @@ private void openLogIn(){
     // Test 6: Profile URL Matches Username
     @Test(priority = 6)
     public void testProfileURLMatchesUsername() {
-        openLogIn();
-        enterCredentials("sjtusick6535@eagle.fgcu.edu", "Test123910!");
-        clickLogIn();
+        login();
 
         // Navigate to profile
         WebElement profile = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='HeaderContent']/div/div/div[2]/div/div/div/div[2]/div")));

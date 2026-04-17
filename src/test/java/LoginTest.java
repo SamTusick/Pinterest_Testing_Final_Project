@@ -63,7 +63,7 @@ public class LoginTest {
     private void openLogIn(){
         driver.get("https://www.pinterest.com/");
 
-        WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]/button/div/div")));
+        WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]")));
         login_btn.click();
 
     }
@@ -94,6 +94,8 @@ public class LoginTest {
 
        WebElement settings = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='VerticalNavContent']/div/div/div[2]/div/div[1]/div/button/div/div")));
        settings.click();
+
+
     }
 
     // Test 2: Invalid Password
@@ -132,8 +134,8 @@ public class LoginTest {
         openLogIn();
         enterCredentials("sjtusick6535@eagle.fgcu.edu", "");
         clickLogIn();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='password-error']/div/span[1]")));
-
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='password-error']/div/span[1]")));
+        Assert.assertTrue(error.isDisplayed());
     }
 
     // Test 6: Both Fields Empty

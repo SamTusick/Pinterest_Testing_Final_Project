@@ -62,7 +62,7 @@ public class NotificationsAndSettingsTest {
     private void openLogIn(){
         driver.get("https://www.pinterest.com/");
 
-        WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]/button/div/div")));
+        WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]")));
         login_btn.click();
 
     }

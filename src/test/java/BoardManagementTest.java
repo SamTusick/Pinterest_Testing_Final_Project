@@ -1,3 +1,4 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -41,6 +42,7 @@ public class BoardManagementTest {
         // Runs before EACH test method — initializes a fresh browser session
         System.out.println("\n[Setup] Launching Chrome browser...");
         System.setProperty("webdriver.chrome.driver", "C:\\Drivers\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -62,7 +64,7 @@ public class BoardManagementTest {
 private void openLogIn(){
     driver.get("https://www.pinterest.com/");
 
-    WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]/button/div/div")));
+    WebElement login_btn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/header/div[1]/nav/div[3]/div[2]")));
     login_btn.click();
 
 }
@@ -130,7 +132,8 @@ private void openLogIn(){
         clickBoards();
         WebElement create = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div/div[2]/div/div/div/div[3]/div")));
         create.click();
-        driver.findElement(By.xpath("//*[@id='board_actions-item-1']/div/div/div[1]/div/div/span")).click();
+        WebElement toggle = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board_actions-item-1']/div/div/div[1]/div/div/span")));
+        toggle.click();
 
         // Insert new board data
         WebElement name = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board-name']")));
@@ -157,7 +160,7 @@ private void openLogIn(){
         // Click into board
         WebElement board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div/div/div/div/div/div/div[1]")));
         board.click();
-        WebElement dots = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div[2]/div/div/div[2]/div/div[2]")));
+        WebElement dots = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div")));
         dots.click();
         WebElement edit_board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board_options-item-0']/div/div/div[1]/div/div")));
         edit_board.click();
@@ -187,7 +190,7 @@ private void openLogIn(){
         // Click into board
         WebElement board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[2]/div/div/div/div/div[1]/div/div/div/div/div/div/div/div[1]")));
         board.click();
-        WebElement dots = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div[2]/div/div/div[2]/div/div[2]")));
+        WebElement dots = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='__PWS_ROOT__']/div[1]/div/div[3]/div/div/div/div/div[1]/div/div[2]/div/div/div[2]/div/div/div/div/div/div/div")));
         dots.click();
         WebElement edit_board = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='board_options-item-0']/div/div/div[1]/div/div")));
         edit_board.click();
